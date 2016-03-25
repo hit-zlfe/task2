@@ -39,11 +39,11 @@
         function selectCity(arr,minScore){//选择大于60的城市
             var selectedArr=[];
             for(var i =0;i<arr.length;i++){
-                if(arr[i][1]>=minScore){
+                if(arr[i][1] > minScore){
                     selectedArr.push(arr[i]);
                 }
             }
-            function maxFirst(a,b){//sort辅助函数，用来从大到小排列
+            /*function maxFirst(a,b){//sort辅助函数，用来从大到小排列
                 if(a[1]>b[1]){
                     return -1;
                 }
@@ -51,11 +51,16 @@
                     return 1;
                 }
             }
-            return selectedArr.sort(maxFirst);
+            return selectArr.sort(maxFirst);
+            */
+            /* 功能相同 */
+            return selectedArr.sort(function(arr1, arr2){
+                return arr2[1] - arr1[1]; // 降序
+            });
         }
         var list=selectCity(aqiData,60);
         for(var i =0;i<list.length;i++){
-            creatList(document.getElementById('aqi-list'),list[i][0]+list[i][1]);
+            creatList(document.getElementById('aqi-list'),list[i][0]+': '+list[i][1]);
         }
 
 
