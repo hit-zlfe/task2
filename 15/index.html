@@ -52,10 +52,10 @@
         var uSource=document.getElementById('source').children;
         for(var i =0;i<uSource.length;i++){
             var re1=/[\u4E00-\u9FA5]+(?=\u7a7a\u6c14)/;//正则，选取城市名。（用正则的原因是考虑到城市名可能是两个字，也可能是三个或者四个字）
-            var re2=/\d+/;//正则，选取数值
+            var re2=/\d+/;//正;则，选取数值
             var city = re1.exec(uSource[i].textContent);
-            var scor = parseInt(re2.exec(uSource[i].textContent));
-            var cell =[city,scor];
+            var score = re2.exec(uSource[i].textContent);
+            var cell =[city,score];
             data.push(cell);
         }
         return data;
@@ -68,7 +68,7 @@
      * 返回一个排序后的数组
      */
     function sortAqiData(data) {
-        function minFirst(a,b){
+        /*function minFirst(a,b){
             if(a[1]>b[1]){
                 return 1;
             }
@@ -77,7 +77,11 @@
             }
         }
         data.sort(minFirst);
-        return data;
+        return data;*/
+        /* 功能相同 */
+        return data.sort(function(data1, data2){
+            return data1[1] - data2[1]; // 升序
+        })
 
     }
 
@@ -89,9 +93,11 @@
     function render(data) {
         var ul=document.getElementById('resort');
         ul.innerHTML="";
+        var num = ['一', '二', '三', '四', '五', '六', '七'];
         for(var i =0;i<data.length;i++){
             var newList=document.createElement("li");
-            newList.textContent=data[i][0]+":"+data[i][1];
+            /* 使用textContent不能给<li>中的值添加样式 */
+            newList.innerHTML = "第"+num[i]+"名："+data[6-i][0]+"空气质量：<b>"+data[6-i][1] + '<\/b>';
             ul.appendChild(newList);
         }
     }
