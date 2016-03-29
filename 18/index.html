@@ -5,7 +5,7 @@
     <title>IFE JavaScript Task 18</title>
 </head>
 <style type="text/css">
-    li{
+    li{ 
       display: inline-block;
       background-color: red;
       padding: 10px;
@@ -30,14 +30,16 @@
     var leftout = document.getElementById('left-out');
     var rightin = document.getElementById('right-in');
     var rightout = document.getElementById('right-out');
+
+    /* 左侧入 */
     leftin.onclick = function(){
         var li = document.createElement('li');
-        if(isNum(numInput.value)){
+        if(isNum(numInput.value)){ // 判断输入是否为数字
             li.innerHTML = numInput.value;
-            li.onclick = function(){
+            li.onclick = function(){ // 点击删除
                 this.parentNode.removeChild(this)
             }
-            if(lis){
+            if(lis){ // 如果<ul>中不空，则从左侧插入；否则直接添加。
                 ul.insertBefore(li, lis[0]);
             }
             else{
@@ -49,8 +51,9 @@
         }
     }
 
+    /* 左侧出 */
     leftout.onclick = function(){
-        if(lis){
+        if(lis){ // 如果<ul>非空，则删除第一个。即最左边元素。
             lis[0].parentNode.removeChild(lis[0]);;
         }
         else{
@@ -58,6 +61,7 @@
         }
     }
 
+    /* 右侧人 */
     rightin.onclick = function(){
         var li = document.createElement('li');
         if(isNum(numInput.value)){
@@ -65,13 +69,14 @@
             li.onclick = function(){
               li.parentNode.removeChild(li);
             }
-            ul.appendChild(li);
+            ul.appendChild(li); // 直接插入（尾插）
         }
         else{
             alert("It's not a number or it's empty!");
         }
     }
 
+    /* 右侧出 */
     rightout.onclick = function(){
         if(lis){
             lis[lis.length-1].parentNode.removeChild(lis[lis.length-1]);
@@ -81,6 +86,7 @@
         }
     }
 
+    /* 是否为数字 */
     function isNum(num){
       var re = /^[0-9]+(?!\.)$/;
       return re.test(num);
