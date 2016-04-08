@@ -1,0 +1,179 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 18</title>
+</head>
+<style type="text/css">
+    li{ 
+      display: inline-block;
+      background-color: red;
+      padding: 10px;
+      margin-left: 10px;
+      color: white;
+      text-align: center;
+    }
+</style>
+<body>
+    <input id="num-input" type="text"></input>
+    <button id="left-in">左侧入</button>
+    <button id="right-in">右侧入</button>
+    <button id="left-out">左侧出</button>
+    <button id="right-out">右侧出</button>
+    <button id="random">生成20个随机数</button>
+    <button id="sort">冒泡排序</button>
+    <ul id="queue">
+    </ul>
+<script type="text/javascript">
+    var ul = document.getElementById('queue');
+    var lis = ul.getElementsByTagName('li');
+    var numInput = document.getElementById('num-input');
+    var leftin = document.getElementById('left-in');
+    var leftout = document.getElementById('left-out');
+    var rightin = document.getElementById('right-in');
+    var rightout = document.getElementById('right-out');
+    var random = document.getElementById('random');
+    var sort = document.getElementById('sort');
+
+    /* 左侧入 */
+    leftin.onclick = function(){
+        var li = document.createElement('li');
+        if(lis.length <= 60){
+            if(isSuit(numInput.value)){ // 判断输入是否为数字
+                //li.innerHTML = numInput.value;
+                setLiHeight(numInput.value, li);
+                li.onclick = function(){ // 点击删除
+                    this.parentNode.removeChild(this)
+                }
+                if(lis){ // 如果<ul>中不空，则从左侧插入；否则直接添加。
+                    ul.insertBefore(li, lis[0]);
+                }
+                else{
+                  ul.appendChild(li);
+                }
+            }
+            else{
+                alert("It's not a suitable number!");
+            }
+        }
+        else{
+            alert("It's full in the queue!(at most 60)");
+        }
+    }
+
+    /* 左侧出 */
+    leftout.onclick = function(){
+        if(lis){ // 如果<ul>非空，则删除第一个。即最左边元素。
+            lis[0].parentNode.removeChild(lis[0]);;
+        }
+        else{
+            alert("There is no number!");
+        }
+    }
+
+    /* 右侧人 */
+    rightin.onclick = function(){
+        var li = document.createElement('li');
+        if(lis.length <= 60){
+            if(isSuit(numInput.value)){
+                //li.innerHTML = numInput.value;
+                setLiHeight(numInput.value, li);
+                li.onclick = function(){
+                  li.parentNode.removeChild(li);
+                }
+                ul.appendChild(li); // 直接插入（尾插）
+            }
+            else{
+                alert("It's not a suitable number!");
+            }
+        }
+        else{
+            alert("It's full in the queue!(at most 60)");
+        }
+    }
+
+    /* 右侧出 */
+    rightout.onclick = function(){
+        if(lis){
+            lis[0].parentNode.removeChild(lis[lis.length-1]);
+        }
+        else{
+            alert("There is no number!");
+        }
+    }
+
+    /* 生成20个随机数 */
+    random.onclick = function(){
+        var num;
+        var li;
+        for(var i = 0; i < 20; i++){
+            num = getRandomNum(10, 100);
+            li = document.createElement('li');
+            setLiHeight(num, li);
+            li.onclick = function(){
+                li.parentNode.removeChild(li);
+            }
+            ul.appendChild(li); // 直接插入（尾插）
+        }
+    }
+
+    /* 可视化冒泡排序 */
+    sort.onclick = function(){
+        var i = 0, j = 0;
+        var interval;
+        interval = window.setInterval(function(){
+            if(i < lis.length-1){
+                if(j < lis.length-1-i){
+                    if(lis[j].style.height > lis[j+1].style.height){
+                        ul.insertBefore(lis[j+1], lis[j]);// 交换
+                    }
+                    j++;
+                }
+                else{// 内层循环结束
+                    j = 0;
+                    i++;
+                }
+            }
+            else{// 未排序完插入的话会自动排序
+                i = 0;
+                clearInterval(interval);
+            }
+        }, 100);
+    }
+
+    /* 生成随机数 */
+    function getRandomNum(min,max){ 
+        var range = max - min; 
+        var rand = Math.random(); 
+        return parseInt(min + Math.round(rand * range)); 
+    } 
+
+    /* 设置li的高度 */
+    function setLiHeight(num, li){
+        li.style.height = num;
+    }
+
+    /* 是否为数字 */
+    function isNum(num){
+        var re = /^[0-9]+$/;
+        return re.test(num);
+    }
+
+    /* 数字是否合法：10-100 */
+    function isSuit(num){
+        if (isNum(num)){
+            if (num >= 10 && num <= 100){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 0;
+        }
+        return 0;
+    }
+</script>
+</body>
+</html>
