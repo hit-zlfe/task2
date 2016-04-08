@@ -20,8 +20,8 @@
     <button id="right-in">右侧入</button>
     <button id="left-out">左侧出</button>
     <button id="right-out">右侧出</button>
-    <button id="random">生成20个随机数</button>
-    <button id="sort">冒泡排序</button>
+    <button id="random">一次生成20个随机数</button>
+    <button id="sort">冒泡排序（50ms）</button>
     <ul id="queue">
     </ul>
 <script type="text/javascript">
@@ -106,14 +106,19 @@
     random.onclick = function(){
         var num;
         var li;
-        for(var i = 0; i < 20; i++){
-            num = getRandomNum(10, 100);
-            li = document.createElement('li');
-            setLiHeight(num, li);
-            li.onclick = function(){
-                li.parentNode.removeChild(li);
+        if(lis.length <= 40){
+            for(var i = 0; i < 20; i++){
+                num = getRandomNum(10, 100);
+                li = document.createElement('li');
+                setLiHeight(num, li);
+                li.onclick = function(){
+                    li.parentNode.removeChild(li);
+                }
+                ul.appendChild(li); // 直接插入（尾插）
             }
-            ul.appendChild(li); // 直接插入（尾插）
+        }
+        else{
+            alert("要超过60个，不给生成了。");
         }
     }
 
@@ -138,7 +143,7 @@
                 i = 0;
                 clearInterval(interval);
             }
-        }, 100);
+        }, 50);
     }
 
     /* 生成随机数 */
