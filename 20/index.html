@@ -1,0 +1,75 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 18</title>
+</head>
+<style type="text/css">
+    li{ 
+      display: inline-block;
+      background-color: red;
+      padding: 10px;
+      margin-left: 10px;
+      color: white;
+      text-align: center;
+    }
+    #result{
+        background: blue;
+    }
+</style>
+<body>
+    <textarea id="input" autofocus placeholder="请用分隔符分隔字符串"></textarea>
+    <button id="in">插入</button>
+    <input id="str" type="text"></input>
+    <button id="search">查询</button>
+    <ul id="queue">
+    </ul>
+<script type="text/javascript">
+    var ul = document.getElementById('queue');
+    var input = document.getElementById('input');
+    var insert = document.getElementById('in');
+    var str = document.getElementById('str');
+    var search = document.getElementById('search');
+    var latest = '';
+
+    /* 插入 */
+    insert.onclick = function(){
+        var inputs = input.value.trim().split(/[^0-9a-zA-Z\u4e00-\u9fa5]+/).filter(function(e){return e != '' && e.length > 0;});
+        var li;
+        if (inputs.length == 0){
+            alert("输入无效！");
+        }
+        else{
+            for (var i = 0; i < inputs.length; i++){
+                li = document.createElement('li');
+                li.innerHTML = inputs[i];
+                li.onclick = function(){ // 点击删除
+                    this.parentNode.removeChild(this)
+                }
+                ul.appendChild(li);
+            }
+        }
+    }
+    
+    /* 查询 */
+    search.onclick = function(){
+        var lis = ul.getElementsByTagName('li');
+        var temp = -1;
+        /* 清除之前的样式 */
+        for (var i = 0; i < lis.length; i++){
+            lis[i].innerHTML = lis[i].innerHTML.replace("<span id=\"result\">"+latest+"</span>", latest);
+        }
+        /* 搜索字符串并显示区别 */
+        for (var i = 0; i < lis.length; i++){
+            temp = lis[i].innerHTML.indexOf(str.value);// 找到搜索字符串的下标
+            //lis[i].innerHTML = lis[i].innerHTML.replace("<span id=\"result\">"+latest+"</span>", latest);
+            if (temp >= 0){
+                lis[i].innerHTML = lis[i].innerHTML.replace(new RegExp(str.value, 'g'), "<span id=\"result\">"+str.value+"</span>");
+            }
+        }
+        latest = str.value;
+    }
+
+</script>
+</body>
+</html>
