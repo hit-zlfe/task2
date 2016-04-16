@@ -1,0 +1,94 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 18</title>
+</head>
+<style type="text/css">
+    li{ 
+      display: inline-block;
+      background-color: red;
+      padding: 10px;
+      margin-left: 10px;
+      color: white;
+      text-align: center;
+    }
+    #result{
+        background: blue;
+    }
+</style>
+<body>
+    Tag:<input id="firstin" placeholder="分隔符为空格，逗号和回车"></input>
+    <ul id="first">
+    </ul>
+    <textarea id="secondin" placeholder="请用分隔符分隔字符串"></textarea>
+    <button id="in" onclick="javascript:hobby()">确认兴趣爱好</button>
+    <ul id="second">
+    </ul>
+<script type="text/javascript">
+    var number = 0;// 控制删除位置
+
+    document.onkeydown = function(){
+        var ul = document.getElementById('first');
+        var input = document.getElementById('firstin');
+        if(event.keyCode == 13 || event.keyCode == 32 || event.keyCode == 44){
+            insert(ul, input.value.trim());
+        }
+    }
+
+    /* 查重 */
+    function existOrNot(lis, input){
+        for(var i = 0; i < lis.length; i++){
+            if(lis[i].innerHTML == input){
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    /* 插入 */
+    function insert(ul, input){
+        var li;
+        var lis = ul.getElementsByTagName('li');
+
+        if(existOrNot(lis, input) == 0){// 是否已经存在
+            if(lis.length >= 10){// 是否超过10个
+                lis[number].innerHTML = input;
+                number++;
+                number = number % 10;
+            }
+            else{
+                if (input != ''){// 删除空格后不为空
+                    li = document.createElement('li');
+                    li.innerHTML = input;
+                    li.onclick = function(){ // 点击删除
+                        this.parentNode.removeChild(this)
+                    }
+                    li.onmouseover = function(){// 增加“删除”二字
+                        li.innerHTML = "删除" + li.innerHTML;
+                        li.style.background = "blue";
+                    }
+                    li.onmouseout = function(){// 鼠标过后恢复
+                        li.innerHTML = li.innerHTML.replace("删除", '');
+                        li.style.background = "red";
+                    }
+                    ul.appendChild(li);
+                }
+            }
+        }
+    }
+    
+    /* 兴趣爱好 */
+    function hobby(){
+        var ul = document.getElementById('second');
+        var input = document.getElementById('secondin');
+        var inputs = input.value.trim().split(/[^0-9a-zA-Z\u4e00-\u9fa5]+/).filter(function(e){return e != '' && e.length > 0;});
+        /* 一个个插入 */
+        for (var i = 0; i < inputs.length; i++){
+            insert(ul, inputs[i]);
+        }
+    }
+
+</script>
+</body>
+</html>
