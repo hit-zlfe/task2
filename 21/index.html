@@ -31,8 +31,14 @@
     document.onkeydown = function(){
         var ul = document.getElementById('first');
         var input = document.getElementById('firstin');
-        if(event.keyCode == 13 || event.keyCode == 32 || event.keyCode == 44){
+        //var inputs;
+        if(event.keyCode == 13 || event.keyCode == 32){
+            /*inputs = input.value.trim().split(',');
+            for(var i = 0; i < inputs.length; i++){
+                insert(ul, inputs[i]);
+            }*/
             insert(ul, input.value.trim());
+            input.value = '';// 插入后清空
         }
     }
 
