@@ -44,7 +44,44 @@ Form.prototype = {
 
 	addInput: function(cfg,row){
 		var input = document.createElement("input");
+		var label = document.createElement("label");
+		var hint = document.createElement("span");
+		hint.id  = "alert"; hint.innerHTML = cfg.rules;
+		addClass(hint,"hide");addClass(hint,"hint");
+
+		label.innerHTML = cfg.label;
+		row.appendChild(label);
 		row.appendChild(input);
+		row.appendChild(hint);
+
+		function showalert(rules){
+			console.log(".innerHTML = rules;");
+		}
+
+		addEvent(input,"focus",function(){
+			removeClass(hint,'hide');
+		});
+
+		addEvent(input,"blur",function(){
+			var input_value = input.value;
+			var checkFunction = cfg.validator;
+
+			var check_result = checkFunction(input_value);
+			if(check_result == 0){
+				removeClass(hint,"hint");
+				addClass(hint,'wrong');
+				hint.innerHTML = cfg.blank;
+			}else if(check_result == 2){
+				removeClass(hint,"wrong");
+				addClass(hint,'hint');
+				hint.innerHTML = cfg.success;
+			}else{
+				removeClass(hint,"hint");
+				addClass(hint,'wrong');
+				hint.innerHTML = cfg.fail;
+			};
+		});
+
 		console.log(cfg);
 	},
 }
